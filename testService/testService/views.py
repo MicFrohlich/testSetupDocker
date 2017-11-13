@@ -1,2 +1,2 @@
-
 def blogPosts():
+    return None
