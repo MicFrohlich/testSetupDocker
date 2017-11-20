@@ -34,8 +34,8 @@ services:
       # This will read the file container.env and setup all the values as
       # environment varibles within the container
       env_file:
-        - conatiner.env
-  volumes:
+        - container.env
+volumes:
   postgres-db-volume:
 networks:
   default:
