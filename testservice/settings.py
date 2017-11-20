@@ -83,13 +83,25 @@ WSGI_APPLICATION = 'testservice.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# OLD DATABASE SETUP FOR SQLITE
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# This is the setup for using postgres in django (These environment variables
+# need to be set, else it will set the defaults
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('POSTGRES_DB_NAME', 'postgres'),
+        'USER': os.environ.get('POSTGRES_DB_USER', 'postgres'),
+        'HOST': os.environ.get('POSTGRES_DB_HOST', 'db'),
+        'PORT': os.environ.get('POSTGRES_DB_PORT', '5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
