@@ -1,0 +1,41 @@
+version: "3"
+services:
+    # This is the container that will run an instance of postgres
+    db:
+    # This will make sure that if your container fails for any reason it will
+    # restart a maximum of 10 times
+      restart: on-failure:10
+    # This is the image we are using
+      image: postgres:9.5
+    # This connects our container to a network so we can discover it within
+    # other containers in the same network (Don't worry to much about this,
+    # we'll go through it in more detail later)
+      networks:
+        - default
+    # The volume where to persist data
+      volumes:
+        - "postgres-db-volume:/var/lib/postgresql/data"
+
+    # This is a container that will be running our webservice
+    web:
+      restart: on-failure:10
+      # This tells docker compose to use a dockerfile in the current path
+      build: .
+      # This maps our code into the container so that any changes to code
+      # will reflect within the container
+      volumes:
+        - .:/code
+      networks:
+        - default
+      # Exposes the internal port 8000 (where our webservice is running)
+      # to the host machines port 8000 Format{HOST:CONTAINER}
+      ports:
+        - "8000:8000"
+      # This will read the file container.env and setup all the values as
+      # environment varibles within the container
+      env_file:
+        - conatiner.env
+  volumes:
+  postgres-db-volume:
+networks:
+  default:
